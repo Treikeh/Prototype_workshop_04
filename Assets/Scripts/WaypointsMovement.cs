@@ -6,29 +6,25 @@ public class WaypointsMovement : MonoBehaviour
     public float moveSpeed = 10f;
     public List<Transform> waypoints = new List<Transform>();
 
+    // Distance to waypoint before moving towards the next waypoint
     private float minDistance = 0.1f;
     private int waypointIndex = 0;
     private Vector2 targetPosition;
 
-    void Start()
+    private void Start()
     {
         // Set starting patrol waypoint
         UpdateWaypointTarget();
     }
 
-    void Update()
+    private void Update()
     {
         UpdateWaypointTarget();
-        Movement();
-    }
-
-    void Movement()
-    {
         // Move towards a waypoint
         transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
     }
 
-    void UpdateWaypointTarget()
+    private void UpdateWaypointTarget()
     {
         targetPosition = waypoints[waypointIndex].position;
         // Change waypoint when close to current waypoint

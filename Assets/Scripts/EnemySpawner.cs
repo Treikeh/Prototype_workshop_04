@@ -10,13 +10,20 @@ public class EnemySpawner : MonoBehaviour
     private float spawnTimer = 0f;
     private List<Transform> waypoints = new();
 
-    void Start()
+    private void Start()
     {
-        GetWaypoints();
+        // Get waypoints enemies will follow
+        foreach (Transform child in waypointsRoot)
+        {
+            waypoints.Add(child);
+        }
     }
 
-    void Update()
+    private void Update()
     {
+        // Don't spawn any enemies when the game state isn't wave
+        if (GameManger.instance.gameState != GameState.Wave) { return; }
+
         spawnTimer += Time.deltaTime;
         if (spawnTimer >= spawnInterval)
         {
@@ -25,15 +32,7 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    void GetWaypoints()
-    {
-        foreach (Transform child in waypointsRoot)
-        {
-            waypoints.Add(child);
-        }
-    }
-
-    void SpawnRandomEnemy()
+    private void SpawnRandomEnemy()
     {
         // Get random enemy from list
         int index = Random.Range(0, enemies.Count);
