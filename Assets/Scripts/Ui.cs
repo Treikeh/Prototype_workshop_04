@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using NUnit.Framework;
 using TMPro;
 using UnityEngine;
 
@@ -12,6 +10,8 @@ public class Ui : MonoBehaviour
     public GameObject buildingUi;
     public GameObject waveUi;
     public GameObject loseUi;
+
+    public TowerSpawner towerSpawner;
 
     private void OnEnable()
     {
@@ -70,6 +70,11 @@ public class Ui : MonoBehaviour
         DestroyObjectsWithTag("Tower");
 
         GameManger.instance.ResetGame();
+    }
+
+    public void BuildTower()
+    {
+        towerSpawner.SpawnTower();
     }
 
     private void DestroyObjectsWithTag(String tag)
