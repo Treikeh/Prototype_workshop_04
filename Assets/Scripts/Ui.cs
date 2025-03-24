@@ -58,7 +58,6 @@ public class Ui : MonoBehaviour
     public void StartWave()
     {
         GameManger.instance.ChangeState(GameState.Wave);
-        GameManger.instance.wave += 1;
     }
 
     public void RestartGame()

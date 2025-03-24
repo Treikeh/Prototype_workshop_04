@@ -13,6 +13,11 @@ public class Health : MonoBehaviour
         currentHealth = maxHealth;
     }
 
+    private void OnDestroy()
+    {
+        GameManger.instance.enemiesKilled += 1;
+    }
+
     public void TakeDamage(float amount)
     {
         currentHealth -= amount;

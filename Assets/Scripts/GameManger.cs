@@ -10,6 +10,8 @@ public class GameManger : MonoBehaviour
     public int gold = 50;
     public int lives = 3;
     public int wave = 0;
+    public int maxWaveSpawns = 0;
+    public int enemiesKilled = 0;
 
     private void Awake()
     {
@@ -26,15 +28,32 @@ public class GameManger : MonoBehaviour
 
     private void Update()
     {
+        // Move to lose state if all lives are lost
         if (lives <= 0 && gameState == GameState.Wave)
         {
             ChangeState(GameState.Lose);
+        }
+
+        // Move to building state when all enemies are killed
+        if (enemiesKilled >= maxWaveSpawns && gameState == GameState.Wave)
+        {
+            ChangeState(GameState.Building);
         }
     }
 
     public void ChangeState(GameState newState)
     {
         gameState = newState;
+
+        switch (gameState)
+        {
+            case GameState.Wave:
+                wave += 1;
+                enemiesKilled = 0;
+                maxWaveSpawns = GetMaxWaveSpawns();
+                break;
+        }
+
         OnGameStateChanged?.Invoke(newState);
     }
 
@@ -44,6 +63,11 @@ public class GameManger : MonoBehaviour
         lives = 3;
         wave = 0;
         ChangeState(GameState.Building);
+    }
+
+    public int GetMaxWaveSpawns()
+    {
+        return 10 + wave;
     }
 }
 
