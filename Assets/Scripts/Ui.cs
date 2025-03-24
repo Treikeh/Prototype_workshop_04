@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using NUnit.Framework;
 using TMPro;
 using UnityEngine;
 
@@ -9,6 +11,7 @@ public class Ui : MonoBehaviour
     public TMP_Text waveText;
     public GameObject buildingUi;
     public GameObject waveUi;
+    public GameObject loseUi;
 
     private void OnEnable()
     {
@@ -37,14 +40,17 @@ public class Ui : MonoBehaviour
             case GameState.Building:
                 buildingUi.SetActive(true);
                 waveUi.SetActive(false);
+                loseUi.SetActive(false);
                 break;
             case GameState.Wave:
-                waveUi.SetActive(true);
                 buildingUi.SetActive(false);
+                waveUi.SetActive(true);
+                loseUi.SetActive(false);
                 break;
             case GameState.Lose:
                 waveUi.SetActive(false);
                 buildingUi.SetActive(false);
+                loseUi.SetActive(true);
                 break;
         }
     }
@@ -53,5 +59,24 @@ public class Ui : MonoBehaviour
     {
         GameManger.instance.ChangeState(GameState.Wave);
         GameManger.instance.wave += 1;
+    }
+
+    public void RestartGame()
+    {
+        // Destroy every active enemy
+        DestroyObjectsWithTag("Enemy");
+
+        // Destroy every active tower
+        DestroyObjectsWithTag("Tower");
+
+        GameManger.instance.ResetGame();
+    }
+
+    private void DestroyObjectsWithTag(String tag)
+    {
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag(tag))
+        {
+            Destroy(obj);
+        }
     }
 }

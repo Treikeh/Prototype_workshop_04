@@ -16,9 +16,12 @@ public class GameManger : MonoBehaviour
         // Set active game manager instance
         if (instance == null) {instance = this;}
         else {Destroy(gameObject);}
+    }
 
+    private void Start()
+    {
         // Initialize first game state
-        ChangeState(GameState.Building);
+        ResetGame();
     }
 
     private void Update()
@@ -38,7 +41,7 @@ public class GameManger : MonoBehaviour
     public void ResetGame()
     {
         gold = 50;
-        lives = 50;
+        lives = 3;
         wave = 0;
         ChangeState(GameState.Building);
     }
